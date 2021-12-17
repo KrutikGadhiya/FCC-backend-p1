@@ -24,10 +24,19 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get('/api', (req, res) => {
+  const time = new Date()
+  res.json({unix: time.valueOf(), utc: time.toUTCString()})
+})
+
 app.get("/api/:time", (req, res) => {
   const { time } = req.params
-  const Time = new Date(time.length > 10 ? parseInt(time) : time)
-  console.log(Time)
+  console.log(time)
+  const Time = new Date(time.length == 13 ? parseInt(time) : time)
+  console.log(Time ,typeof Time)
+  if(Time == 'Invalid Date')
+    return res.json({ error : "Invalid Date" })
+
   res.json({unix: Time.valueOf(), utc: Time.toUTCString()})
 })
 
